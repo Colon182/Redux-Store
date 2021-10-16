@@ -1,13 +1,7 @@
-// TODO: REST API
-// import React, { useState, useEffect } from 'react';
-// TODO:
 import React from 'react';
 
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 
-// TODO: REST API
-// import { getMe, deleteBook } from '../utils/API';
-// TODO:
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
