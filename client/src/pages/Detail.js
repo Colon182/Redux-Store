@@ -3,8 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 import Cart from '../components/Cart';
-// TODO:
-// import { useStoreContext } from '../utils/GlobalState';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -18,8 +16,6 @@ import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 
 function Detail() {
-  // TODO:
-  // const [state, dispatch] = useStoreContext();
   const dispatch = useDispatch();
   const state = useSelector((state) => state );
 
@@ -32,11 +28,9 @@ function Detail() {
   const { products, cart } = state;
 
   useEffect(() => {
-    // already in global store
     if (products.length) {
       setCurrentProduct(products.find((product) => product._id === id));
     }
-    // retrieved from server
     else if (data) {
       dispatch({
         type: UPDATE_PRODUCTS,
@@ -47,7 +41,6 @@ function Detail() {
         idbPromise('products', 'put', product);
       });
     }
-    // get cache from idb
     else if (!loading) {
       idbPromise('products', 'get').then((indexedProducts) => {
         dispatch({

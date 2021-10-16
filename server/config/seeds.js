@@ -1,5 +1,5 @@
 const db = require('./connection');
-const { User, Product, Category } = require('../models');
+const { User, Product, Category, Order } = require('../models');
 
 db.once('open', async () => {
   await Category.deleteMany();
@@ -128,19 +128,34 @@ db.once('open', async () => {
 
   console.log('products seeded');
 
+  await Order.deleteMany();
+
+  for (let o = 0; o < 3; o++) {
+    const newOrder = { products: [] };
+
+    for (let i = 0; i < 4; i++) {
+      const product = products[Math.floor(Math.random() * products.length)];
+
+      newOrder.products.push(product);
+    }
+
+    await Order.create(newOrder);
+  }
+
+  const orders = await Order.find({});
+  console.log("orders: ", JSON.stringify(orders, null, 2));
+
   await User.deleteMany();
 
-  await User.create({
+  const user = await User.create({
     firstName: 'Pamela',
     lastName: 'Washington',
     email: 'pamela@testmail.com',
     password: 'password12345',
-    orders: [
-      {
-        products: [products[0]._id, products[0]._id, products[1]._id]
-      }
-    ]
+    orders: [ orders[0]._id, orders[1]._id, orders[2]._id ]
   });
+
+  console.log("user: ", JSON.stringify(user, null, 2));
 
   await User.create({
     firstName: 'Elijah',
